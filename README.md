@@ -1,79 +1,144 @@
-Dashboard theo dõi tồn kho
+#  Dashboard theo dõi tồn kho
 
-Báo cáo Power BI (Tồn_kho.pbix) theo dõi tình hình tồn kho của chuỗi cửa hàng bán lẻ: lượng hàng đặt – bán – tồn theo thời gian, tốc độ quay vòng của từng sản phẩm, và cảnh báo những sản phẩm cần đặt thêm hàng.
+Báo cáo Power BI (`Tồn_kho.pbix`) theo dõi tình hình tồn kho của chuỗi cửa hàng bán lẻ: lượng hàng đặt, bán, tồn theo thời gian; tốc độ quay vòng của từng sản phẩm; và cảnh báo các sản phẩm cần đặt thêm hàng.
 
-Nguồn dữ liệu: Retail Store Inventory
-Kích thước trang: 1920 × 1080 (Full HD, chế độ Fit to Page)
-Giao diện: theme Fluent 2, ngôn ngữ hiển thị tiếng Việt
-Cấu trúc báo cáo
+## 1. Thông tin chung
 
-Báo cáo gồm 4 trang, chuyển qua lại bằng thanh điều hướng ở góc trên bên trái.
+| Hạng mục | Nội dung |
+|----------|----------|
+| Tệp báo cáo | `Tồn_kho.pbix` |
+| Nguồn dữ liệu | Retail Store Inventory |
+| Công cụ | Power BI Desktop (bản mới, hỗ trợ định dạng PBIR) |
+| Số trang | 4 |
+| Kích thước trang | 1920 × 1080 (Full HD, Fit to Page) |
+| Giao diện | Theme Fluent 2, hiển thị tiếng Việt |
+| Điều hướng | Thanh điều hướng ở góc trên bên trái |
 
-#	Trang	Câu hỏi trả lời
-1	Tổng quan	Tình hình tồn kho chung hiện nay ra sao?
-2	Dòng chảy	Hàng được đặt và bán ra như thế nào theo thời gian?
-3	Cấu trúc	Sản phẩm nào quay vòng nhanh, sản phẩm nào chậm?
-4	Cảnh báo	Sản phẩm nào cần đặt gấp và đặt bao nhiêu?
-1. Tổng quan
-Thẻ KPI: Tồn hiện tại, Số ngày tồn kho, Vòng quay tồn kho, Giá trị tồn kho
-Cơ cấu tồn theo nhóm hàng (biểu đồ donut)
-Top 5 sản phẩm tồn nhiều nhất
-Bán và đặt hàng theo tháng (biểu đồ đường)
-Tồn cuối tháng (biểu đồ cột)
-2. Dòng chảy
-Thẻ KPI: Tổng đặt hàng, Tổng bán ra, Chênh lệch ròng (Net Flow), Tồn trung bình
-Đặt hàng so với bán theo tháng và theo nhóm hàng
-Tồn trung bình mỗi ngày theo tháng
-Bảng chênh lệch đặt và bán theo sản phẩm
-3. Cấu trúc
-Thẻ KPI: Vòng quay tồn kho, Tồn trung bình, Giá trị tồn kho
-Biểu đồ phân tán: vòng quay và tồn trung bình theo sản phẩm (có đường trung bình để chia nhóm)
-Giá trị tồn theo nhóm hàng
-Bảng xếp hạng sản phẩm theo vòng quay, phân loại Quay nhanh / Quay chậm
-4. Cảnh báo
-Thẻ KPI: Số SKU khẩn cấp, Đề xuất đặt hàng, Số ngày tồn kho
-Top 10 sản phẩm cần đặt nhiều nhất
-Tồn so với điểm đặt lại (Reorder Point) theo nhóm hàng
-Bảng đề xuất đặt hàng theo sản phẩm, trạng thái Cần đặt gấp / Ổn định / Tồn nhiều
-Thanh trượt Lead time: kéo để xem số lượng cần đặt thay đổi theo thời gian giao hàng
-Bộ lọc
+## 2. Tổng quan các trang
 
-Các trang đều có bộ lọc dạng dropdown ở thanh bên trái:
+| # | Trang | Câu hỏi trả lời | Đối tượng dùng chính |
+|---|-------|-----------------|----------------------|
+| 1 | **Tổng quan** | Tình hình tồn kho chung hiện nay ra sao? | Quản lý, lãnh đạo |
+| 2 | **Dòng chảy** | Hàng được đặt và bán ra thế nào theo thời gian? | Mua hàng, kế hoạch |
+| 3 | **Cấu trúc** | Sản phẩm nào quay vòng nhanh, sản phẩm nào chậm? | Quản lý ngành hàng |
+| 4 | **Cảnh báo** | Sản phẩm nào cần đặt gấp và đặt bao nhiêu? | Mua hàng, vận hành kho |
 
-Store ID – cửa hàng
-Category – nhóm hàng
-Date – thời gian
-Lead Time – chỉ có ở trang Cảnh báo
-Mô hình dữ liệu
-Bảng	Vai trò
-Fact_Inventory	Bảng sự kiện chính, chứa các cột và measure của báo cáo
-Lead Time	Bảng tham số cho thanh trượt Lead time
+## 3. Chi tiết từng trang
 
-Cột chính: Date, YearMonth, Store ID, Product ID, Category, Units Sold, Units Ordered, Current Stock, Reorder Point
+### 3.1. Tổng quan
 
-Measure chính:
+| Thành phần | Loại | Nội dung |
+|------------|------|----------|
+| Tồn hiện tại | Thẻ KPI | `Current Stock` |
+| Số ngày tồn kho | Thẻ KPI | `Days of Inventory` |
+| Vòng quay tồn kho | Thẻ KPI | `Inventory Turnover` |
+| Giá trị tồn kho | Thẻ KPI | `Stock Value` |
+| Cơ cấu tồn theo nhóm hàng | Biểu đồ donut | Tồn theo `Category` |
+| Top 5 sản phẩm tồn nhiều nhất | Biểu đồ thanh | Tồn theo `Product ID` |
+| Bán và đặt hàng theo tháng | Biểu đồ đường | `Units Sold`, `Units Ordered` theo `YearMonth` |
+| Tồn cuối tháng | Biểu đồ cột | `Current Stock` theo `YearMonth` |
 
-Measure	Ý nghĩa
-Current Stock	Tồn kho hiện tại
-Stock Value	Giá trị tồn kho
-Avg Inventory	Tồn kho trung bình
-Inventory Turnover	Vòng quay tồn kho
-Days of Inventory	Số ngày tồn kho
-Total Units Ordered / Total Units Sold	Tổng lượng đặt / tổng lượng bán
-Net Flow	Chênh lệch giữa lượng đặt và lượng bán
-Turnover Class	Phân loại quay nhanh / quay chậm
-Stock Status	Trạng thái tồn: Cần đặt gấp / Ổn định / Tồn nhiều
-Suggested Order Qty	Số lượng đề xuất đặt thêm
-Urgent SKU	Số SKU cần đặt gấp
+### 3.2. Dòng chảy
 
-Công thức DAX chi tiết của từng measure xem trong Power BI Desktop (mục Model view hoặc Data view). Phần mô tả trên dựa trên tên measure và cách chúng được dùng trong báo cáo.
+| Thành phần | Loại | Nội dung |
+|------------|------|----------|
+| Tổng đặt hàng | Thẻ KPI | `Total Units Ordered` |
+| Tổng bán ra | Thẻ KPI | `Total Units Sold` |
+| Chênh lệch ròng | Thẻ KPI | `Net Flow` |
+| Tồn trung bình | Thẻ KPI | `Avg Inventory` |
+| Đặt hàng so với bán theo tháng | Biểu đồ cột | Đặt và bán theo `YearMonth` |
+| Đặt hàng so với bán theo nhóm hàng | Biểu đồ thanh | Đặt và bán theo `Category` |
+| Tồn trung bình mỗi ngày theo tháng | Biểu đồ đường | `Avg Inventory` theo `YearMonth` |
+| Chênh lệch đặt và bán theo sản phẩm | Bảng | `Product ID`, đặt, bán, `Net Flow` |
 
-Cách sử dụng
-Mở Tồn_kho.pbix bằng Power BI Desktop (bản mới, hỗ trợ định dạng báo cáo PBIR).
-Nếu có yêu cầu, chọn Refresh để cập nhật dữ liệu từ nguồn.
-Dùng bộ lọc bên trái để chọn cửa hàng, nhóm hàng hoặc khoảng thời gian.
-Vào trang Cảnh báo, kéo thanh Lead time để xem số lượng đề xuất đặt thay đổi.
-Gợi ý đọc nhanh
-Vòng quay thấp + tồn trung bình cao (góc trên bên phải ở trang Cấu trúc): hàng tồn đọng, cần xem lại kế hoạch nhập.
-Tồn thấp hơn điểm đặt lại (trang Cảnh báo): nguy cơ thiếu hàng, ưu tiên đặt gấp.
-Net Flow dương kéo dài (trang Dòng chảy): đặt nhiều hơn bán, tồn kho đang tích lũy.
+### 3.3. Cấu trúc
+
+| Thành phần | Loại | Nội dung |
+|------------|------|----------|
+| Vòng quay tồn kho | Thẻ KPI | `Inventory Turnover` |
+| Tồn trung bình | Thẻ KPI | `Avg Inventory` |
+| Giá trị tồn kho | Thẻ KPI | `Stock Value` |
+| Vòng quay và tồn trung bình theo sản phẩm | Biểu đồ phân tán | Trục: vòng quay và tồn trung bình; kích thước: giá trị tồn; có đường trung bình chia nhóm |
+| Giá trị tồn theo nhóm hàng | Biểu đồ cột | `Stock Value` theo `Category` |
+| Xếp hạng sản phẩm theo vòng quay | Bảng | Vòng quay, số ngày tồn, giá trị tồn, phân loại **Quay nhanh / Quay chậm** |
+
+### 3.4. Cảnh báo
+
+| Thành phần | Loại | Nội dung |
+|------------|------|----------|
+| Số SKU khẩn cấp | Thẻ KPI | `Urgent SKU` |
+| Đề xuất đặt hàng | Thẻ KPI | `Suggested Order Qty` |
+| Số ngày tồn kho | Thẻ KPI | `Days of Inventory` |
+| Top 10 sản phẩm cần đặt nhiều nhất | Biểu đồ thanh | `Suggested Order Qty` theo `Product ID` |
+| Tồn so với điểm đặt lại | Biểu đồ cột | `Current Stock` và `Reorder Point` theo `Category` |
+| Đề xuất đặt hàng theo sản phẩm | Bảng | Tồn, số ngày tồn, điểm đặt lại, số lượng đề xuất, trạng thái **Cần đặt gấp / Ổn định / Tồn nhiều** |
+| Lead time | Thanh trượt | Kéo để xem số lượng cần đặt thay đổi theo thời gian giao hàng |
+
+## 4. Bộ lọc
+
+| Bộ lọc | Dạng | Trang áp dụng | Ý nghĩa |
+|--------|------|---------------|---------|
+| `Store ID` | Dropdown | Cả 4 trang | Chọn cửa hàng |
+| `Category` | Dropdown | Cả 4 trang | Chọn nhóm hàng |
+| `Date` | Dropdown | Cả 4 trang | Chọn thời gian |
+| `Lead Time` | Thanh trượt | Cảnh báo | Thay đổi thời gian giao hàng để tính lại số lượng đặt |
+
+## 5. Mô hình dữ liệu
+
+### 5.1. Bảng
+
+| Bảng | Vai trò |
+|------|---------|
+| `Fact_Inventory` | Bảng sự kiện chính, chứa các cột và measure của báo cáo |
+| `Lead Time` | Bảng tham số cho thanh trượt Lead time |
+
+### 5.2. Cột chính của `Fact_Inventory`
+
+| Cột | Ý nghĩa |
+|-----|---------|
+| `Date` | Ngày ghi nhận |
+| `YearMonth` | Tháng, dùng cho trục thời gian |
+| `Store ID` | Mã cửa hàng |
+| `Product ID` | Mã sản phẩm |
+| `Category` | Nhóm hàng |
+| `Units Sold` | Số lượng bán |
+| `Units Ordered` | Số lượng đặt |
+| `Current Stock` | Tồn kho |
+| `Reorder Point` | Điểm đặt lại |
+
+### 5.3. Measure chính
+
+| Measure | Ý nghĩa | Dùng ở trang |
+|---------|---------|--------------|
+| `Current Stock` | Tồn kho hiện tại | Tổng quan, Cảnh báo |
+| `Stock Value` | Giá trị tồn kho | Tổng quan, Cấu trúc |
+| `Avg Inventory` | Tồn kho trung bình | Dòng chảy, Cấu trúc |
+| `Inventory Turnover` | Vòng quay tồn kho | Tổng quan, Cấu trúc |
+| `Days of Inventory` | Số ngày tồn kho | Tổng quan, Cấu trúc, Cảnh báo |
+| `Total Units Ordered` | Tổng lượng đặt | Dòng chảy |
+| `Total Units Sold` | Tổng lượng bán | Dòng chảy |
+| `Net Flow` | Chênh lệch giữa lượng đặt và lượng bán | Dòng chảy |
+| `Turnover Class` | Phân loại quay nhanh / quay chậm | Cấu trúc |
+| `Stock Status` | Trạng thái tồn: Cần đặt gấp / Ổn định / Tồn nhiều | Cảnh báo |
+| `Suggested Order Qty` | Số lượng đề xuất đặt thêm | Cảnh báo |
+| `Urgent SKU` | Số SKU cần đặt gấp | Cảnh báo |
+
+> Công thức DAX chi tiết xem trong Power BI Desktop (**Model view** hoặc **Data view**). Phần ý nghĩa ở trên dựa trên tên measure và cách dùng trong báo cáo.
+
+## 6. Hướng dẫn sử dụng
+
+| Bước | Thao tác |
+|------|----------|
+| 1 | Mở `Tồn_kho.pbix` bằng Power BI Desktop |
+| 2 | Chọn **Refresh** nếu cần cập nhật dữ liệu từ nguồn |
+| 3 | Dùng bộ lọc bên trái để chọn cửa hàng, nhóm hàng, thời gian |
+| 4 | Chuyển trang bằng thanh điều hướng ở góc trên bên trái |
+| 5 | Ở trang **Cảnh báo**, kéo thanh **Lead time** để xem số lượng đề xuất đặt thay đổi |
+
+## 7. Gợi ý đọc nhanh
+
+| Tín hiệu | Trang | Ý nghĩa | Hành động |
+|----------|-------|---------|-----------|
+| Vòng quay thấp, tồn trung bình cao | Cấu trúc | Hàng tồn đọng | Xem lại kế hoạch nhập, cân nhắc khuyến mãi |
+| Tồn thấp hơn điểm đặt lại | Cảnh báo | Nguy cơ thiếu hàng | Ưu tiên đặt gấp |
+| `Net Flow` dương kéo dài | Dòng chảy | Đặt nhiều hơn bán, tồn đang tích lũy | Giảm lượng đặt |
