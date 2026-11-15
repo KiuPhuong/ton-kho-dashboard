@@ -7,7 +7,7 @@ Báo cáo Power BI (`Tồn_kho.pbix`) theo dõi tình hình tồn kho của chu�
 | Hạng mục | Nội dung |
 |----------|----------|
 | Tệp báo cáo | `Tồn_kho.pbix` |
-| Nguồn dữ liệu | Retail Store Inventory |
+| Nguồn dữ liệu | [Retail Store Inventory and Demand Forecasting (Kaggle)](https://www.kaggle.com/datasets/atomicd/retail-store-inventory-and-demand-forecasting), xem chi tiết ở mục 8 |
 | Công cụ | Power BI Desktop (bản mới, hỗ trợ định dạng PBIR) |
 | Số trang | 4 |
 | Kích thước trang | 1920 × 1080 (Full HD, Fit to Page) |
@@ -142,3 +142,17 @@ Báo cáo Power BI (`Tồn_kho.pbix`) theo dõi tình hình tồn kho của chu�
 | Vòng quay thấp, tồn trung bình cao | Cấu trúc | Hàng tồn đọng | Xem lại kế hoạch nhập, cân nhắc khuyến mãi |
 | Tồn thấp hơn điểm đặt lại | Cảnh báo | Nguy cơ thiếu hàng | Ưu tiên đặt gấp |
 | `Net Flow` dương kéo dài | Dòng chảy | Đặt nhiều hơn bán, tồn đang tích lũy | Giảm lượng đặt |
+
+## 8. Nguồn dữ liệu
+
+| Hạng mục | Nội dung |
+|----------|----------|
+| Tên bộ dữ liệu | Retail Store Inventory and Demand Forecasting |
+| Nền tảng | Kaggle |
+| Tác giả | atomicd |
+| Đường dẫn | https://www.kaggle.com/datasets/atomicd/retail-store-inventory-and-demand-forecasting |
+| Tính chất | Dữ liệu tổng hợp (synthetic), ghi nhận theo ngày, cửa hàng và sản phẩm |
+| Giấy phép | Xem trên trang Kaggle của bộ dữ liệu trước khi dùng lại hoặc công khai |
+| Ngày tải | `dd/mm/yyyy` (điền ngày bạn tải dữ liệu) |
+
+> Lưu ý: các measure như `Stock Value`, `Days of Inventory`, `Reorder Point`, `Suggested Order Qty` được tính trong mô hình Power BI. Hãy đối chiếu lại với dữ liệu gốc và bổ sung phần này nếu bạn có chỉnh sửa hoặc thêm cột.
