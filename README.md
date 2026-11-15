@@ -1,4 +1,4 @@
-#  Dashboard theo dõi tồn kho
+# Dashboard theo dõi tồn kho
 
 Báo cáo Power BI (`Tồn_kho.pbix`) theo dõi tình hình tồn kho của chuỗi cửa hàng bán lẻ: lượng hàng đặt, bán, tồn theo thời gian; tốc độ quay vòng của từng sản phẩm; và cảnh báo các sản phẩm cần đặt thêm hàng.
 
@@ -83,6 +83,8 @@ Báo cáo Power BI (`Tồn_kho.pbix`) theo dõi tình hình tồn kho của chu�
 | `Date` | Dropdown | Cả 4 trang | Chọn thời gian |
 | `Lead Time` | Thanh trượt | Cảnh báo | Thay đổi thời gian giao hàng để tính lại số lượng đặt |
 
+> Lưu ý: nếu một slicer đang chọn sẵn một giá trị (ví dụ `Category` = Clothing, `Store ID` = S001), toàn bộ visual chỉ hiển thị dữ liệu của giá trị đó. Chọn **Select all** để xem đầy đủ.
+
 ## 5. Mô hình dữ liệu
 
 ### 5.1. Bảng
@@ -103,27 +105,174 @@ Báo cáo Power BI (`Tồn_kho.pbix`) theo dõi tình hình tồn kho của chu�
 | `Category` | Nhóm hàng |
 | `Units Sold` | Số lượng bán |
 | `Units Ordered` | Số lượng đặt |
-| `Current Stock` | Tồn kho |
-| `Reorder Point` | Điểm đặt lại |
+| `Inventory Level` | Mức tồn kho ghi nhận theo ngày |
+| `Price` | Đơn giá |
 
-### 5.3. Measure chính
+### 5.3. Danh sách measure
 
 | Measure | Ý nghĩa | Dùng ở trang |
 |---------|---------|--------------|
-| `Current Stock` | Tồn kho hiện tại | Tổng quan, Cảnh báo |
-| `Stock Value` | Giá trị tồn kho | Tổng quan, Cấu trúc |
-| `Avg Inventory` | Tồn kho trung bình | Dòng chảy, Cấu trúc |
-| `Inventory Turnover` | Vòng quay tồn kho | Tổng quan, Cấu trúc |
-| `Days of Inventory` | Số ngày tồn kho | Tổng quan, Cấu trúc, Cảnh báo |
+| `Current Stock` | Tồn kho tại ngày cuối cùng trong phạm vi đang lọc | Tổng quan, Cảnh báo |
+| `Stock Value` | Giá trị tồn kho tại ngày cuối (tồn × đơn giá) | Tổng quan, Cấu trúc |
+| `Avg Inventory` | Tồn kho trung bình theo ngày | Dòng chảy, Cấu trúc |
 | `Total Units Ordered` | Tổng lượng đặt | Dòng chảy |
 | `Total Units Sold` | Tổng lượng bán | Dòng chảy |
 | `Net Flow` | Chênh lệch giữa lượng đặt và lượng bán | Dòng chảy |
+| `Avg Daily Sales` | Lượng bán trung bình mỗi ngày | Cảnh báo (dùng để tính các measure khác) |
+| `Inventory Turnover` | Vòng quay tồn kho | Tổng quan, Cấu trúc |
+| `Days of Inventory` | Số ngày tồn kho | Tổng quan, Cấu trúc, Cảnh báo |
 | `Turnover Class` | Phân loại quay nhanh / quay chậm | Cấu trúc |
+| `Lead Time Value` | Giá trị lead time đang chọn ở thanh trượt | Cảnh báo |
+| `Safety Stock` | Tồn kho an toàn | Cảnh báo |
+| `Reorder Point` | Điểm đặt lại | Cảnh báo |
 | `Stock Status` | Trạng thái tồn: Cần đặt gấp / Ổn định / Tồn nhiều | Cảnh báo |
 | `Suggested Order Qty` | Số lượng đề xuất đặt thêm | Cảnh báo |
 | `Urgent SKU` | Số SKU cần đặt gấp | Cảnh báo |
 
-> Công thức DAX chi tiết xem trong Power BI Desktop (**Model view** hoặc **Data view**). Phần ý nghĩa ở trên dựa trên tên measure và cách dùng trong báo cáo.
+### 5.4. Công thức DAX
+
+#### Nhóm 1: Tồn kho
+
+```DAX
+Current Stock =
+VAR LastDate = MAX ( Fact_Inventory[Date] )
+RETURN
+    CALCULATE (
+        SUM ( Fact_Inventory[Inventory Level] ),
+        KEEPFILTERS ( Fact_Inventory[Date] = LastDate )
+    )
+```
+
+```DAX
+Stock Value =
+VAR LastDate = MAX ( Fact_Inventory[Date] )
+RETURN
+    SUMX (
+        FILTER ( Fact_Inventory, Fact_Inventory[Date] = LastDate ),
+        Fact_Inventory[Inventory Level] * Fact_Inventory[Price]
+    )
+```
+
+```DAX
+Avg Inventory =
+AVERAGEX (
+    VALUES ( Fact_Inventory[Date] ),
+    CALCULATE ( SUM ( Fact_Inventory[Inventory Level] ) )
+)
+```
+
+#### Nhóm 2: Dòng chảy
+
+```DAX
+Total Units Sold = SUM ( Fact_Inventory[Units Sold] )
+```
+
+```DAX
+Total Units Ordered = SUM ( Fact_Inventory[Units Ordered] )
+```
+
+```DAX
+Net Flow = [Total Units Ordered] - [Total Units Sold]
+```
+
+```DAX
+Avg Daily Sales =
+DIVIDE ( [Total Units Sold], DISTINCTCOUNT ( Fact_Inventory[Date] ) )
+```
+
+#### Nhóm 3: Vòng quay
+
+```DAX
+Inventory Turnover =
+DIVIDE ( [Total Units Sold], [Avg Inventory] )
+```
+
+```DAX
+Days of Inventory =
+DIVIDE ( [Avg Inventory], [Avg Daily Sales] )
+```
+
+```DAX
+Turnover Class =
+VAR AvgTurnover =
+    CALCULATE (
+        [Inventory Turnover],
+        ALLSELECTED ( Fact_Inventory[Product ID] )
+    )
+RETURN
+    IF ( [Inventory Turnover] >= AvgTurnover, "Quay nhanh", "Quay chậm" )
+```
+
+#### Nhóm 4: Cảnh báo và đặt hàng
+
+Bảng tham số cho thanh trượt Lead time (**Modeling → New table**):
+
+```DAX
+Lead Time = GENERATESERIES ( 1, 14, 1 )
+```
+
+```DAX
+Lead Time Value =
+SELECTEDVALUE ( 'Lead Time'[Lead Time], 3 )
+```
+
+```DAX
+Safety Stock =
+VAR Z = 1.65  -- mức phục vụ khoảng 95%
+VAR StdDaily =
+    STDEVX.P (
+        VALUES ( Fact_Inventory[Date] ),
+        CALCULATE ( SUM ( Fact_Inventory[Units Sold] ) )
+    )
+RETURN
+    Z * StdDaily * SQRT ( [Lead Time Value] )
+```
+
+```DAX
+Reorder Point =
+[Avg Daily Sales] * [Lead Time Value] + [Safety Stock]
+```
+
+```DAX
+Stock Status =
+VAR Stock = [Current Stock]
+VAR ROP = [Reorder Point]
+RETURN
+    SWITCH (
+        TRUE (),
+        Stock < ROP, "Cần đặt gấp",
+        Stock > 2 * ROP, "Tồn nhiều",
+        "Ổn định"
+    )
+```
+
+```DAX
+Suggested Order Qty =
+SUMX (
+    VALUES ( Fact_Inventory[Product ID] ),
+    MAX ( 0, ROUNDUP ( [Reorder Point] - [Current Stock], 0 ) )
+)
+```
+
+```DAX
+Urgent SKU =
+COUNTROWS (
+    FILTER (
+        VALUES ( Fact_Inventory[Product ID] ),
+        [Current Stock] < [Reorder Point]
+    )
+)
+```
+
+#### Ghi chú về công thức
+
+| Vấn đề | Giải thích |
+|--------|------------|
+| `Reorder Point` phải là measure | Nếu để là cột tính sẵn thì thanh trượt Lead time sẽ không làm số liệu thay đổi |
+| `Current Stock` lấy ngày cuối | Với trục tháng, đây chính là tồn cuối tháng; không cộng dồn tồn của nhiều ngày |
+| `Days of Inventory` | Tồn trung bình chia cho lượng bán trung bình mỗi ngày, cho biết hàng đủ bán trong bao nhiêu ngày |
+| Hệ số `Z = 1.65` và ngưỡng `2 * ROP` | Là giả định, có thể đổi theo chính sách tồn kho thực tế |
+| Số liệu có thể lệch so với bản đang dùng | Công thức trên là định nghĩa chuẩn; nếu measure hiện tại của bạn viết khác thì đối chiếu lại trước khi thay |
 
 ## 6. Hướng dẫn sử dụng
 
@@ -147,12 +296,10 @@ Báo cáo Power BI (`Tồn_kho.pbix`) theo dõi tình hình tồn kho của chu�
 
 | Hạng mục | Nội dung |
 |----------|----------|
-| Tên bộ dữ liệu | Retail Store Inventory and Demand Forecasting |
+| Tên bộ dữ liệu | Retail Store Inventory Forecasting Dataset |
 | Nền tảng | Kaggle |
-| Tác giả | atomicd |
-| Đường dẫn | [https://www.kaggle.com/datasets/atomicd/retail-store-inventory-and-demand-forecasting](https://www.kaggle.com/datasets/anirudhchauhan/retail-store-inventory-forecasting-dataset) |
+| Tác giả | anirudhchauhan |
+| Đường dẫn | [Retail Store Inventory Forecasting Dataset](https://www.kaggle.com/datasets/anirudhchauhan/retail-store-inventory-forecasting-dataset) |
 | Tính chất | Dữ liệu tổng hợp (synthetic), ghi nhận theo ngày, cửa hàng và sản phẩm |
 | Giấy phép | Xem trên trang Kaggle của bộ dữ liệu trước khi dùng lại hoặc công khai |
 | Ngày tải | `dd/mm/yyyy` (điền ngày bạn tải dữ liệu) |
-
-> Lưu ý: các measure như `Stock Value`, `Days of Inventory`, `Reorder Point`, `Suggested Order Qty` được tính trong mô hình Power BI. Hãy đối chiếu lại với dữ liệu gốc và bổ sung phần này nếu bạn có chỉnh sửa hoặc thêm cột.
