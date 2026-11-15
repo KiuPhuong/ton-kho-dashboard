@@ -2,7 +2,7 @@
 
 Báo cáo Power BI (`Tồn kho.pbix`) theo dõi tình hình tồn kho của chuỗi cửa hàng bán lẻ: lượng hàng đặt, bán, tồn theo thời gian; tốc độ quay vòng của từng sản phẩm; và cảnh báo các sản phẩm cần đặt thêm hàng.
 
-![Tổng quan](images/tong-quan.png)
+<img width="806" height="456" alt="tong-quan" src="https://github.com/user-attachments/assets/2441e8e5-d0e4-40b0-bac8-e385e8881e2b" />
 
 ## 1. Thông tin chung
 
@@ -29,7 +29,7 @@ Báo cáo Power BI (`Tồn kho.pbix`) theo dõi tình hình tồn kho của chu�
 
 ### 3.1. Tổng quan
 
-![Trang Tổng quan](images/tong-quan.png)
+<img width="806" height="456" alt="tong-quan" src="https://github.com/user-attachments/assets/4875e6a2-f79b-4209-b806-36213d683695" />
 
 | Thành phần | Loại | Nội dung |
 |------------|------|----------|
@@ -44,7 +44,7 @@ Báo cáo Power BI (`Tồn kho.pbix`) theo dõi tình hình tồn kho của chu�
 
 ### 3.2. Dòng chảy
 
-![Trang Dòng chảy](images/dong-chay.png)
+<img width="806" height="452" alt="dong-chay" src="https://github.com/user-attachments/assets/8ff433a8-7b27-46b7-bd46-83be7789b10c" />
 
 | Thành phần | Loại | Nội dung |
 |------------|------|----------|
@@ -59,7 +59,7 @@ Báo cáo Power BI (`Tồn kho.pbix`) theo dõi tình hình tồn kho của chu�
 
 ### 3.3. Cấu trúc
 
-![Trang Cấu trúc](images/cau-truc.png)
+<img width="804" height="450" alt="cau-truc" src="https://github.com/user-attachments/assets/b52c1da4-6872-4782-87b1-b517e51b6e61" />
 
 | Thành phần | Loại | Nội dung |
 |------------|------|----------|
@@ -72,7 +72,7 @@ Báo cáo Power BI (`Tồn kho.pbix`) theo dõi tình hình tồn kho của chu�
 
 ### 3.4. Cảnh báo
 
-![Trang Cảnh báo](images/canh-bao.png)
+<img width="808" height="454" alt="canh-bao" src="https://github.com/user-attachments/assets/909c8bff-182f-46a9-840b-040c292332c5" />
 
 | Thành phần | Loại | Nội dung |
 |------------|------|----------|
