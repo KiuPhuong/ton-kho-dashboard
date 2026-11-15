@@ -150,7 +150,7 @@ Báo cáo Power BI (`Tồn_kho.pbix`) theo dõi tình hình tồn kho của chu�
 | Tên bộ dữ liệu | Retail Store Inventory and Demand Forecasting |
 | Nền tảng | Kaggle |
 | Tác giả | atomicd |
-| Đường dẫn | https://www.kaggle.com/datasets/atomicd/retail-store-inventory-and-demand-forecasting |
+| Đường dẫn | [https://www.kaggle.com/datasets/atomicd/retail-store-inventory-and-demand-forecasting](https://www.kaggle.com/datasets/anirudhchauhan/retail-store-inventory-forecasting-dataset) |
 | Tính chất | Dữ liệu tổng hợp (synthetic), ghi nhận theo ngày, cửa hàng và sản phẩm |
 | Giấy phép | Xem trên trang Kaggle của bộ dữ liệu trước khi dùng lại hoặc công khai |
 | Ngày tải | `dd/mm/yyyy` (điền ngày bạn tải dữ liệu) |
