@@ -7,7 +7,7 @@ Báo cáo Power BI (`Tồn_kho.pbix`) theo dõi tình hình tồn kho của chu�
 | Hạng mục | Nội dung |
 |----------|----------|
 | Tệp báo cáo | `Tồn_kho.pbix` |
-| Nguồn dữ liệu | [Retail Store Inventory and Demand Forecasting (Kaggle)](https://www.kaggle.com/datasets/atomicd/retail-store-inventory-and-demand-forecasting), xem chi tiết ở mục 8 |
+| Nguồn dữ liệu | Nguồn dữ liệu: Retail Store Inventory Forecasting Dataset (Kaggle), xem chi tiết ở mục 8 |
 | Công cụ | Power BI Desktop (bản mới, hỗ trợ định dạng PBIR) |
 | Số trang | 4 |
 | Kích thước trang | 1920 × 1080 (Full HD, Fit to Page) |
