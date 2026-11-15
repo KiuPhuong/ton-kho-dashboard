@@ -298,8 +298,8 @@ COUNTROWS (
 |----------|----------|
 | Tên bộ dữ liệu | Retail Store Inventory Forecasting Dataset |
 | Nền tảng | Kaggle |
-| Tác giả | anirudhchauhan |
+| Tác giả | Anirudh Singh Chauhan |
 | Đường dẫn | [Retail Store Inventory Forecasting Dataset](https://www.kaggle.com/datasets/anirudhchauhan/retail-store-inventory-forecasting-dataset) |
 | Tính chất | Dữ liệu tổng hợp (synthetic), ghi nhận theo ngày, cửa hàng và sản phẩm |
 | Giấy phép | Xem trên trang Kaggle của bộ dữ liệu trước khi dùng lại hoặc công khai |
-| Ngày tải | `dd/mm/yyyy` (điền ngày bạn tải dữ liệu) |
+| Ngày tải | `02/11/2026` |
