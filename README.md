@@ -34,10 +34,10 @@ Báo cáo Power BI (`Tồn kho.pbix`) theo dõi tình hình tồn kho của chu�
 
 | Thành phần | Loại | Nội dung |
 |------------|------|----------|
-| Current Stock | Thẻ KPI | Tồn kho hiện tại |
-| Days of Inventory | Thẻ KPI | Số ngày tồn kho |
-| Inventory Turnover | Thẻ KPI | Vòng quay tồn kho |
-| Stock Value | Thẻ KPI | Giá trị tồn kho |
+| Tồn kho hiện tại | Thẻ KPI | Current Stock |
+| Số ngày tồn kho | Thẻ KPI | Days of Inventory |
+| Vòng quay tồn kho | Thẻ KPI | Inventory Turnover |
+| Giá trị tồn kho | Thẻ KPI | Stock Value |
 | Cơ cấu tồn theo nhóm hàng | Biểu đồ donut | `Current Stock` theo `Category` |
 | Bán và đặt hàng theo tháng | Biểu đồ đường | `Units Sold`, `Units Ordered` theo `YearMonth` |
 | Top 5 sản phẩm tồn nhiều nhất | Biểu đồ thanh | `Current Stock` theo `Product ID` |
