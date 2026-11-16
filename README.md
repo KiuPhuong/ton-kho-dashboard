@@ -2,8 +2,6 @@
 
 Báo cáo Power BI (`Tồn kho.pbix`) theo dõi tình hình tồn kho của chuỗi cửa hàng bán lẻ: lượng hàng đặt, bán, tồn theo thời gian; tốc độ quay vòng của từng sản phẩm; và cảnh báo các sản phẩm cần đặt thêm hàng.
 
-<img width="806" height="452" alt="Screenshot 2026-11-16 155104" src="https://github.com/user-attachments/assets/61b064a3-2841-496b-9344-9e794d99d7f6" />
-
 ## 1. Thông tin chung
 
 | Hạng mục | Nội dung |
